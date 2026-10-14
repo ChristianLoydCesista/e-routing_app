@@ -90,7 +90,11 @@ document.addEventListener('DOMContentLoaded', function () {
     result.appendChild(heading);
     result.appendChild(message);
     result.style.display = 'block';
-    nextBtn.style.display = 'none';
+    page2.querySelector('.heart').style.display = 'none';
+    page2.querySelector('h1').style.display = 'none';
+    page2.querySelector('p').style.display = 'none';
+    page2.querySelector('.date-box').style.display = 'none';
+    page2.querySelector('.buttons').style.display = 'none';
     datePicker.disabled = true;
 
     for (let i = 0; i < 25; i++) {
