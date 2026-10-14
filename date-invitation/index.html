@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Will You Go on a Date With Me? 💗</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;font-family:Arial,sans-serif;background:linear-gradient(135deg,#ffe0e9,#ffc2d1)}.card{width:min(90%,420px);padding:35px 22px;text-align:center;background:#fff;border-radius:25px;box-shadow:0 12px 35px #d94f7b30;z-index:1}.heart{font-size:65px;animation:beat 1s infinite}@keyframes beat{50%{transform:scale(1.15)}}h1{color:#e84375;font-size:28px}p{color:#777;line-height:1.6}.buttons{display:flex;justify-content:center;align-items:center;gap:15px;margin-top:30px;min-height:55px}button{border:0;padding:13px 25px;border-radius:30px;font-size:16px;font-weight:bold;cursor:pointer}#yesBtn{background:#ff4d79;color:white}#yesBtn:hover{background:#e52f62}#noBtn{background:#eee;color:#555}#noBtn.running{position:fixed;z-index:10}#result{display:none;margin-top:20px;color:#e84375;font-size:20px;font-weight:bold}.floating-heart{position:fixed;bottom:-30px;pointer-events:none;animation:floatUp 5s linear forwards;z-index:0}@keyframes floatUp{to{transform:translateY(-110vh) rotate(30deg);opacity:0}}
+</style>
+</head>
+<body>
+<main class="card">
+<div class="heart">💗</div>
+<h1>Will you go on a date with me?</h1>
+<p>I have something special planned for us.<br>So... what do you say? 🥹💕</p>
+<div class="buttons"><button id="yesBtn">Yes! 💖</button><button id="noBtn">No 🙈</button></div>
+<div id="result">YAYYY! 🥰❤️<br>It's a date! I can't wait! 💐</div>
+</main>
+<script>
+const yesBtn=document.getElementById('yesBtn'),noBtn=document.getElementById('noBtn'),result=document.getElementById('result');
+function moveNoButton(){noBtn.classList.add('running');const pad=10,maxX=window.innerWidth-noBtn.offsetWidth-pad,maxY=window.innerHeight-noBtn.offsetHeight-pad;noBtn.style.left=(pad+Math.random()*Math.max(0,maxX-pad))+'px';noBtn.style.top=(pad+Math.random()*Math.max(0,maxY-pad))+'px';}
+noBtn.addEventListener('mouseenter',moveNoButton);
+noBtn.addEventListener('touchstart',e=>{e.preventDefault();moveNoButton()},{passive:false});
+yesBtn.addEventListener('click',()=>{result.style.display='block';noBtn.style.display='none';yesBtn.style.display='none';for(let i=0;i<25;i++)setTimeout(createHeart,i*100);});
+function createHeart(){const heart=document.createElement('div');heart.className='floating-heart';heart.textContent=['❤️','💖','💕','💗','💘'][Math.floor(Math.random()*5)];heart.style.left=Math.random()*100+'vw';heart.style.fontSize=(18+Math.random()*25)+'px';document.body.appendChild(heart);setTimeout(()=>heart.remove(),5000);}
+</script>
+</body>
+</html>
