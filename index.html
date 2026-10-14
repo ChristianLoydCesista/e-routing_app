@@ -5,9 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>A Date with Clarissa 💗</title>
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;font-family:Arial,sans-serif;background:linear-gradient(135deg,#ffe0e9,#ffc2d1)}.card{width:min(92%,440px);padding:30px 22px;text-align:center;background:#fff;border-radius:25px;box-shadow:0 12px 35px #d94f7b30;z-index:1}.heart{font-size:60px;animation:beat 1s infinite}@keyframes beat{50%{transform:scale(1.15)}}h1{color:#e84375;font-size:28px}p{color:#777;line-height:1.6}.buttons{display:flex;justify-content:center;align-items:center;gap:15px;margin-top:25px;min-height:55px}button{border:0;padding:13px 25px;border-radius:30px;font-size:16px;font-weight:bold;cursor:pointer}#yesBtn,#nextBtn{background:#ff4d79;color:white}#yesBtn:hover,#nextBtn:hover{background:#e52f62}#noBtn{background:#eee;color:#555}#noBtn.running{position:fixed;z-index:10}.date-box{margin:22px 0 10px;text-align:left;color:#b52f5c;font-weight:bold}.date-box label{display:block;margin-bottom:9px}.date-box input{width:100%;padding:13px;border:2px solid #ffc2d1;border-radius:12px;font-size:16px;color:#693448;background:#fff8fa}.date-note{font-size:13px;font-weight:normal;color:#888;margin-top:8px}#page2{display:none}#result{display:none;margin-top:20px;color:#e84375;font-size:20px;font-weight:bold;line-height:1.7}.backBtn{background:#fce7ee;color:#a92d55;margin-right:8px}.floating-heart{position:fixed;bottom:-30px;pointer-events:none;animation:floatUp 5s linear forwards;z-index:0}@keyframes floatUp{to{transform:translateY(-110vh) rotate(30deg);opacity:0}}@media(max-width:360px){h1{font-size:24px}.card{padding:25px 16px}button{padding:12px 20px}}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;font-family:Arial,sans-serif;background:linear-gradient(135deg,#ffe0e9,#ffc2d1)}.card{width:min(92%,440px);padding:30px 22px;text-align:center;background:#fff;border-radius:25px;box-shadow:0 12px 35px #d94f7b30;z-index:1}.heart{font-size:60px;animation:beat 1s infinite}@keyframes beat{50%{transform:scale(1.15)}}h1{color:#e84375;font-size:28px}p{color:#777;line-height:1.6}.buttons{display:flex;justify-content:center;align-items:center;gap:15px;margin-top:25px;min-height:55px}button{border:0;padding:13px 25px;border-radius:30px;font-size:16px;font-weight:bold;cursor:pointer}#yesBtn,#nextBtn{background:#ff4d79;color:white}#yesBtn:hover,#nextBtn:hover{background:#e52f62}#noBtn{background:#eee;color:#555}#noBtn.running{position:fixed;z-index:10}#page2{display:none}.backBtn{background:#fce7ee;color:#a92d55;margin-right:8px}.floating-heart{position:fixed;bottom:-30px;pointer-events:none;animation:floatUp 5s linear forwards;z-index:0}@keyframes floatUp{to{transform:translateY(-110vh) rotate(30deg);opacity:0}}@media(max-width:360px){h1{font-size:24px}.card{padding:25px 16px}button{padding:12px 20px}}
 </style>
-  <script src="date-storage-config.js"></script>
 </head>
 <body>
 <main class="card">
@@ -18,16 +17,10 @@
 <div class="buttons"><button id="yesBtn">Yes! 💖</button><button id="noBtn">No 🙈</button></div>
 </section>
 <section id="page2">
-<div class="heart" aria-hidden="true"><svg viewBox="0 0 64 64" width="60" height="60" fill="none" stroke="#e84375" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="14" width="48" height="42" rx="7"/><path d="M8 25h48M21 8v12M43 8v12"/></svg></div>
+<div class="heart">💗</div>
 <h1>YAY, Clarissa! 💖</h1>
-<p>When should our special date be?</p>
-<div class="date-box">
-<label for="datePicker">Choose our date</label>
-<input type="date" id="datePicker" required>
-<div class="date-note">Pick a day that works best for you 💐</div>
-</div>
-<div class="buttons"><button id="nextBtn">Confirm date 💕</button></div>
-<div id="result"></div>
+<p>It’s a date! 💐</p>
+<p>I can’t wait to see you, Clarissa! 💕</p>
 </section>
 </main>
 <script>
@@ -36,17 +29,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const page2 = document.getElementById('page2');
   const yesBtn = document.getElementById('yesBtn');
   const noBtn = document.getElementById('noBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const datePicker = document.getElementById('datePicker');
-  const result = document.getElementById('result');
-
-  if (!page1 || !page2 || !yesBtn || !noBtn || !nextBtn || !datePicker || !result) {
-    alert('Some invitation elements could not load. Please refresh the page.');
-    return;
-  }
-
-  const now = new Date();
-  datePicker.min = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 
   function moveNoButton() {
     noBtn.classList.add('running');
@@ -66,69 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
   yesBtn.addEventListener('click', function () {
     page1.style.display = 'none';
     page2.style.display = 'block';
-  });
-
-  nextBtn.addEventListener('click', async function () {
-    const selectedDate = datePicker.value;
-    if (!selectedDate) {
-      result.textContent = 'Please choose a date first 💗';
-      result.style.display = 'block';
-      datePicker.focus();
-      return;
-    }
-
-    const parts = selectedDate.split('-').map(Number);
-    const chosen = new Date(parts[0], parts[1] - 1, parts[2]);
-    const niceDate = chosen.toLocaleDateString('en-US', {
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-    });
-
-    nextBtn.disabled = true;
-    nextBtn.textContent = 'Saving date... 💗';
-    let savedOnline = false;
-    try {
-      const endpoint = window.DATE_STORAGE_CONFIG && window.DATE_STORAGE_CONFIG.endpoint;
-      if (endpoint && endpoint.startsWith('https://') && !endpoint.includes('YOUR-WORKER-URL')) {
-        const response = await fetch(endpoint.replace(/\/$/, ''), {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ selected_date: selectedDate })
-        });
-        if (!response.ok) throw new Error('Storage service returned ' + response.status);
-        const data = await response.json();
-        savedOnline = data.saved === true;
-      }
-    } catch (error) {
-      console.error('Could not save date online:', error);
-    }
-
-    result.innerHTML = '';
-    const heading = document.createElement('div');
-    heading.textContent = 'It’s a date on ' + niceDate + '! 💐';
-    const message = document.createElement('p');
-    message.textContent = 'I can’t wait to see you, Clarissa! 💖';
-    result.appendChild(heading);
-    message.style.fontSize = '16px';
-    message.style.fontWeight = 'normal';
-    result.appendChild(message);
-
-    const status = document.createElement('p');
-    status.style.fontSize = '12px';
-    status.style.fontWeight = 'normal';
-    status.textContent = savedOnline
-      ? 'Date saved successfully 💾'
-      : 'Date shown here, but online saving is not configured or failed.';
-    result.appendChild(status);
-
-    result.style.display = 'block';
-    page2.querySelector('.heart').style.display = 'none';
-    page2.querySelector('h1').style.display = 'none';
-    page2.querySelector('p').style.display = 'none';
-    page2.querySelector('.date-box').style.display = 'none';
-    page2.querySelector('.buttons').style.display = 'none';
-    datePicker.disabled = true;
-
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 18; i++) {
       setTimeout(function () {
         const heart = document.createElement('div');
         heart.className = 'floating-heart';
@@ -137,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
         heart.style.fontSize = (18 + Math.random() * 25) + 'px';
         document.body.appendChild(heart);
         setTimeout(function () { heart.remove(); }, 5000);
-      }, i * 100);
+      }, i * 120);
     }
   });
 });
