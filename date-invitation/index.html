@@ -17,7 +17,7 @@
 <div class="buttons"><button id="yesBtn">Yes! 💖</button><button id="noBtn">No 🙈</button></div>
 </section>
 <section id="page2">
-<div class="heart">📅</div>
+<div class="heart" aria-hidden="true"><svg viewBox="0 0 64 64" width="60" height="60" fill="none" stroke="#e84375" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="14" width="48" height="42" rx="7"/><path d="M8 25h48M21 8v12M43 8v12"/></svg></div>
 <h1>YAY, Clarissa! 💖</h1>
 <p>When should our special date be?</p>
 <div class="date-box">
@@ -25,18 +25,18 @@
 <input type="date" id="datePicker" required>
 <div class="date-note">Pick a day that works best for you 💐</div>
 </div>
-<div class="buttons"><button class="backBtn" id="backBtn">← Back</button><button id="nextBtn">Confirm date 💕</button></div>
+<div class="buttons"><button id="nextBtn">Confirm date 💕</button></div>
 <div id="result"></div>
 </section>
 </main>
 <script>
-const page1=document.getElementById('page1'),page2=document.getElementById('page2'),yesBtn=document.getElementById('yesBtn'),noBtn=document.getElementById('noBtn'),nextBtn=document.getElementById('nextBtn'),backBtn=document.getElementById('backBtn'),datePicker=document.getElementById('datePicker'),result=document.getElementById('result');
+const page1=document.getElementById('page1'),page2=document.getElementById('page2'),yesBtn=document.getElementById('yesBtn'),noBtn=document.getElementById('noBtn'),nextBtn=document.getElementById('nextBtn'),datePicker=document.getElementById('datePicker'),result=document.getElementById('result');
 const today=new Date();datePicker.min=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().split('T')[0];
 function moveNoButton(){noBtn.classList.add('running');const pad=10,maxX=window.innerWidth-noBtn.offsetWidth-pad,maxY=window.innerHeight-noBtn.offsetHeight-pad;noBtn.style.left=(pad+Math.random()*Math.max(0,maxX-pad))+'px';noBtn.style.top=(pad+Math.random()*Math.max(0,maxY-pad))+'px';}
 noBtn.addEventListener('mouseenter',moveNoButton);noBtn.addEventListener('touchstart',e=>{e.preventDefault();moveNoButton()},{passive:false});
 yesBtn.addEventListener('click',()=>{page1.style.display='none';page2.style.display='block';});
 backBtn.addEventListener('click',()=>{page2.style.display='none';page1.style.display='block';});
-nextBtn.addEventListener('click',()=>{if(!datePicker.value){datePicker.focus();datePicker.reportValidity();return;}const chosen=new Date(datePicker.value+'T12:00:00');const niceDate=chosen.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'});result.innerHTML='It’s a date on '+niceDate+'! 💐<br><span style="font-size:15px">I can’t wait to see you, Clarissa! 💖</span>';result.style.display='block';nextBtn.style.display='none';backBtn.style.display='none';datePicker.disabled=true;for(let i=0;i<25;i++)setTimeout(createHeart,i*100);});
+nextBtn.addEventListener('click',()=>{if(!datePicker.value){datePicker.focus();datePicker.reportValidity();return;}const chosen=new Date(datePicker.value+'T12:00:00');const niceDate=chosen.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'});result.innerHTML='It’s a date on '+niceDate+'! 💐<br><span style="font-size:15px">I can’t wait to see you, Clarissa! 💖</span>';result.style.display='block';nextBtn.style.display='none';datePicker.disabled=true;for(let i=0;i<25;i++)setTimeout(createHeart,i*100);});
 function createHeart(){const heart=document.createElement('div');heart.className='floating-heart';heart.textContent=['❤️','💖','💕','💗','💘'][Math.floor(Math.random()*5)];heart.style.left=Math.random()*100+'vw';heart.style.fontSize=(18+Math.random()*25)+'px';document.body.appendChild(heart);setTimeout(()=>heart.remove(),5000);}
 </script>
 </body>
