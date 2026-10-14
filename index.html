@@ -23,29 +23,6 @@
 <div id="dateForm" class="date-box">
 <label for="datePicker">📅 When should we go?</label>
 <input type="date" id="datePicker" required>
-<label for="foodChoice">🍢 What should we eat?</label>
-<select id="foodChoice">
-<option value="Tusok-tusok street food">Tusok-tusok (fishball, kwek-kwek, kikiam)</option>
-<option value="Isaw and ihaw-ihaw">Isaw and ihaw-ihaw</option>
-<option value="Siomai rice">Siomai rice</option>
-<option value="Jollibee">Jollibee 🍗</option>
-<option value="Mang Inasal">Mang Inasal 🍗</option>
-<option value="Samgyup">Samgyup</option>
-<option value="Milktea and snacks">Milktea and snacks 🧋</option>
-<option value="Halo-halo">Halo-halo 🍧</option>
-<option value="Street food and palamig">Street food + palamig</option>
-<option value="Surprise me">Surprise me! 🤭</option>
-</select>
-<label for="activityChoice">💗 What should we do?</label>
-<select id="activityChoice">
-<option value="Gala sa mall">Gala sa mall 🛍️</option>
-<option value="Arcade games">Arcade games 🎮</option>
-<option value="Sunset walk">Sunset walk 🌅</option>
-<option value="Videoke">Videoke 🎤</option>
-<option value="Tambay and kwentuhan">Tambay and kwentuhan 🥹</option>
-<option value="Picture-taking date">Picture-taking date 📸</option>
-<option value="Surprise me">Surprise me! 💕</option>
-</select>
 <div class="hint">Choose what you like, date girlie 💐</div>
 <button id="confirmDateBtn" class="confirm-btn" type="button">Confirm our date 💕</button>
 </div>
@@ -67,8 +44,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const dateForm = document.getElementById('dateForm');
   const confirmation = document.getElementById('confirmation');
   const chosenDetails = document.getElementById('chosenDetails');
-  const foodChoice = document.getElementById('foodChoice');
-  const activityChoice = document.getElementById('activityChoice');
 
   const now = new Date();
   datePicker.min = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
@@ -104,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const niceDate = chosen.toLocaleDateString('en-PH', {
       weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     });
-    chosenDetails.textContent = '📅 ' + niceDate + ' • 🍢 ' + foodChoice.value + ' • 💗 ' + activityChoice.value;
+    chosenDetails.textContent = '📅 ' + niceDate;
     dateForm.style.display = 'none';
     confirmation.style.display = 'block';
     for (let i = 0; i < 18; i++) {
