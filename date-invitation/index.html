@@ -7,7 +7,7 @@
 <style>
 *{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;font-family:Arial,sans-serif;background:linear-gradient(135deg,#ffe0e9,#ffc2d1)}.card{width:min(92%,440px);padding:30px 22px;text-align:center;background:#fff;border-radius:25px;box-shadow:0 12px 35px #d94f7b30;z-index:1}.heart{font-size:60px;animation:beat 1s infinite}@keyframes beat{50%{transform:scale(1.15)}}h1{color:#e84375;font-size:28px}p{color:#777;line-height:1.6}.buttons{display:flex;justify-content:center;align-items:center;gap:15px;margin-top:25px;min-height:55px}button{border:0;padding:13px 25px;border-radius:30px;font-size:16px;font-weight:bold;cursor:pointer}#yesBtn,#nextBtn{background:#ff4d79;color:white}#yesBtn:hover,#nextBtn:hover{background:#e52f62}#noBtn{background:#eee;color:#555}#noBtn.running{position:fixed;z-index:10}.date-box{margin:22px 0 10px;text-align:left;color:#b52f5c;font-weight:bold}.date-box label{display:block;margin-bottom:9px}.date-box input{width:100%;padding:13px;border:2px solid #ffc2d1;border-radius:12px;font-size:16px;color:#693448;background:#fff8fa}.date-note{font-size:13px;font-weight:normal;color:#888;margin-top:8px}#page2{display:none}#result{display:none;margin-top:20px;color:#e84375;font-size:20px;font-weight:bold;line-height:1.7}.backBtn{background:#fce7ee;color:#a92d55;margin-right:8px}.floating-heart{position:fixed;bottom:-30px;pointer-events:none;animation:floatUp 5s linear forwards;z-index:0}@keyframes floatUp{to{transform:translateY(-110vh) rotate(30deg);opacity:0}}@media(max-width:360px){h1{font-size:24px}.card{padding:25px 16px}button{padding:12px 20px}}
 </style>
-</head>
+  <script src="supabase-config.js"></script>\n</head>
 <body>
 <main class="card">
 <section id="page1">
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
     page2.style.display = 'block';
   });
 
-  nextBtn.addEventListener('click', function () {
+  nextBtn.addEventListener('click', async function () {
     const selectedDate = datePicker.value;
     if (!selectedDate) {
       result.textContent = 'Please choose a date first 💗';
@@ -82,13 +82,49 @@ document.addEventListener('DOMContentLoaded', function () {
       weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     });
 
+    nextBtn.disabled = true;
+    nextBtn.textContent = 'Saving date... 💗';
+    let savedOnline = false;
+    try {
+      const config = window.DATE_STORAGE_CONFIG;
+      if (config && config.supabaseUrl.startsWith('https://') &&
+          !config.supabaseUrl.includes('YOUR_PROJECT_ID') &&
+          config.supabaseAnonKey && !config.supabaseAnonKey.includes('YOUR_SUPABASE_ANON_KEY')) {
+        const response = await fetch(config.supabaseUrl.replace(/\\/$/, '') + '/rest/v1/date_selections', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': config.supabaseAnonKey,
+            'Authorization': 'Bearer ' + config.supabaseAnonKey,
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ selected_date: selectedDate })
+        });
+        if (!response.ok) throw new Error('Supabase returned ' + response.status);
+        savedOnline = true;
+      }
+    } catch (error) {
+      console.error('Could not save date online:', error);
+    }
+
     result.innerHTML = '';
     const heading = document.createElement('div');
     heading.textContent = 'It’s a date on ' + niceDate + '! 💐';
     const message = document.createElement('p');
     message.textContent = 'I can’t wait to see you, Clarissa! 💖';
     result.appendChild(heading);
+    message.style.fontSize = '16px';
+    message.style.fontWeight = 'normal';
     result.appendChild(message);
+
+    const status = document.createElement('p');
+    status.style.fontSize = '12px';
+    status.style.fontWeight = 'normal';
+    status.textContent = savedOnline
+      ? 'Date saved successfully 💾'
+      : 'This date is shown here, but online saving is not configured yet.';
+    result.appendChild(status);
+
     result.style.display = 'block';
     page2.querySelector('.heart').style.display = 'none';
     page2.querySelector('h1').style.display = 'none';
