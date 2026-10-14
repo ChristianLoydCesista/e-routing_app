@@ -5,29 +5,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>A Date with Clarissa 💗</title>
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;font-family:Arial,sans-serif;background:linear-gradient(135deg,#ffe0e9,#ffc2d1)}.card{width:min(92%,440px);padding:30px 22px;text-align:center;background:#fff;border-radius:25px;box-shadow:0 12px 35px #d94f7b30;z-index:1}.heart{font-size:60px;animation:beat 1s infinite}@keyframes beat{50%{transform:scale(1.15)}}h1{color:#e84375;font-size:28px}p{color:#777;line-height:1.6}.date-box{margin:22px 0 10px;text-align:left;color:#b52f5c;font-weight:bold}.date-box label{display:block;margin-bottom:9px}.date-box input{width:100%;padding:13px;border:2px solid #ffc2d1;border-radius:12px;font-size:16px;color:#693448;background:#fff8fa}.date-note{font-size:13px;font-weight:normal;color:#888;margin-top:8px}.buttons{display:flex;justify-content:center;align-items:center;gap:15px;margin-top:25px;min-height:55px}button{border:0;padding:13px 25px;border-radius:30px;font-size:16px;font-weight:bold;cursor:pointer}#yesBtn{background:#ff4d79;color:white}#yesBtn:hover{background:#e52f62}#noBtn{background:#eee;color:#555}#noBtn.running{position:fixed;z-index:10}#result{display:none;margin-top:20px;color:#e84375;font-size:20px;font-weight:bold;line-height:1.7}.floating-heart{position:fixed;bottom:-30px;pointer-events:none;animation:floatUp 5s linear forwards;z-index:0}@keyframes floatUp{to{transform:translateY(-110vh) rotate(30deg);opacity:0}}@media(max-width:360px){h1{font-size:24px}.card{padding:25px 16px}button{padding:12px 20px}}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;font-family:Arial,sans-serif;background:linear-gradient(135deg,#ffe0e9,#ffc2d1)}.card{width:min(92%,440px);padding:30px 22px;text-align:center;background:#fff;border-radius:25px;box-shadow:0 12px 35px #d94f7b30;z-index:1}.heart{font-size:60px;animation:beat 1s infinite}@keyframes beat{50%{transform:scale(1.15)}}h1{color:#e84375;font-size:28px}p{color:#777;line-height:1.6}.buttons{display:flex;justify-content:center;align-items:center;gap:15px;margin-top:25px;min-height:55px}button{border:0;padding:13px 25px;border-radius:30px;font-size:16px;font-weight:bold;cursor:pointer}#yesBtn,#nextBtn{background:#ff4d79;color:white}#yesBtn:hover,#nextBtn:hover{background:#e52f62}#noBtn{background:#eee;color:#555}#noBtn.running{position:fixed;z-index:10}.date-box{margin:22px 0 10px;text-align:left;color:#b52f5c;font-weight:bold}.date-box label{display:block;margin-bottom:9px}.date-box input{width:100%;padding:13px;border:2px solid #ffc2d1;border-radius:12px;font-size:16px;color:#693448;background:#fff8fa}.date-note{font-size:13px;font-weight:normal;color:#888;margin-top:8px}#page2{display:none}#result{display:none;margin-top:20px;color:#e84375;font-size:20px;font-weight:bold;line-height:1.7}.backBtn{background:#fce7ee;color:#a92d55;margin-right:8px}.floating-heart{position:fixed;bottom:-30px;pointer-events:none;animation:floatUp 5s linear forwards;z-index:0}@keyframes floatUp{to{transform:translateY(-110vh) rotate(30deg);opacity:0}}@media(max-width:360px){h1{font-size:24px}.card{padding:25px 16px}button{padding:12px 20px}}
 </style>
 </head>
 <body>
 <main class="card">
+<section id="page1">
 <div class="heart">💗</div>
-<h1>Clarissa, will you go on a date with me Clarissa?</h1>
-<p>I have something special planned for us.<br>Pick a date, then tell me what you say! 🥹💕</p>
-<div class="date-box">
-<label for="datePicker">📅 Choose our date</label>
-<input type="date" id="datePicker" required>
-<div class="date-note">Choose the day that works best for you 💐</div>
-</div>
+<h1>Clarissa, will you go on a date with me?</h1>
+<p>I have something special planned for us.<br>So... what do you say? 🥹💕</p>
 <div class="buttons"><button id="yesBtn">Yes! 💖</button><button id="noBtn">No 🙈</button></div>
+</section>
+<section id="page2">
+<div class="heart">📅</div>
+<h1>YAY, Clarissa! 💖</h1>
+<p>When should our special date be?</p>
+<div class="date-box">
+<label for="datePicker">Choose our date</label>
+<input type="date" id="datePicker" required>
+<div class="date-note">Pick a day that works best for you 💐</div>
+</div>
+<div class="buttons"><button class="backBtn" id="backBtn">← Back</button><button id="nextBtn">Confirm date 💕</button></div>
 <div id="result"></div>
+</section>
 </main>
 <script>
-const yesBtn=document.getElementById('yesBtn'),noBtn=document.getElementById('noBtn'),result=document.getElementById('result'),datePicker=document.getElementById('datePicker');
-const today=new Date();const localToday=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().split('T')[0];datePicker.min=localToday;
+const page1=document.getElementById('page1'),page2=document.getElementById('page2'),yesBtn=document.getElementById('yesBtn'),noBtn=document.getElementById('noBtn'),nextBtn=document.getElementById('nextBtn'),backBtn=document.getElementById('backBtn'),datePicker=document.getElementById('datePicker'),result=document.getElementById('result');
+const today=new Date();datePicker.min=new Date(today.getTime()-today.getTimezoneOffset()*60000).toISOString().split('T')[0];
 function moveNoButton(){noBtn.classList.add('running');const pad=10,maxX=window.innerWidth-noBtn.offsetWidth-pad,maxY=window.innerHeight-noBtn.offsetHeight-pad;noBtn.style.left=(pad+Math.random()*Math.max(0,maxX-pad))+'px';noBtn.style.top=(pad+Math.random()*Math.max(0,maxY-pad))+'px';}
-noBtn.addEventListener('mouseenter',moveNoButton);
-noBtn.addEventListener('touchstart',e=>{e.preventDefault();moveNoButton()},{passive:false});
-yesBtn.addEventListener('click',()=>{if(!datePicker.value){datePicker.focus();datePicker.reportValidity();return;}const chosen=new Date(datePicker.value+'T12:00:00');const niceDate=chosen.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'});result.innerHTML='YAYYY, CLARISSA! 🥰❤️<br>It’s a date on '+niceDate+'! 💐<br><span style="font-size:15px">I can’t wait to see you! 💖</span>';result.style.display='block';noBtn.style.display='none';yesBtn.style.display='none';datePicker.disabled=true;for(let i=0;i<25;i++)setTimeout(createHeart,i*100);});
+noBtn.addEventListener('mouseenter',moveNoButton);noBtn.addEventListener('touchstart',e=>{e.preventDefault();moveNoButton()},{passive:false});
+yesBtn.addEventListener('click',()=>{page1.style.display='none';page2.style.display='block';});
+backBtn.addEventListener('click',()=>{page2.style.display='none';page1.style.display='block';});
+nextBtn.addEventListener('click',()=>{if(!datePicker.value){datePicker.focus();datePicker.reportValidity();return;}const chosen=new Date(datePicker.value+'T12:00:00');const niceDate=chosen.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'});result.innerHTML='It’s a date on '+niceDate+'! 💐<br><span style="font-size:15px">I can’t wait to see you, Clarissa! 💖</span>';result.style.display='block';nextBtn.style.display='none';backBtn.style.display='none';datePicker.disabled=true;for(let i=0;i<25;i++)setTimeout(createHeart,i*100);});
 function createHeart(){const heart=document.createElement('div');heart.className='floating-heart';heart.textContent=['❤️','💖','💕','💗','💘'][Math.floor(Math.random()*5)];heart.style.left=Math.random()*100+'vw';heart.style.fontSize=(18+Math.random()*25)+'px';document.body.appendChild(heart);setTimeout(()=>heart.remove(),5000);}
 </script>
 </body>
