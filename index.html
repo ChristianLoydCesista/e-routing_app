@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>A Date with Clarissa 💗</title>
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;font-family:Arial,sans-serif;background:linear-gradient(135deg,#ffe0e9,#ffc2d1)}.card{width:min(92%,440px);padding:30px 22px;text-align:center;background:#fff;border-radius:25px;box-shadow:0 12px 35px #d94f7b30;z-index:1}.heart{font-size:60px;animation:beat 1s infinite}@keyframes beat{50%{transform:scale(1.15)}}h1{color:#e84375;font-size:28px}p{color:#777;line-height:1.6}.buttons{display:flex;justify-content:center;align-items:center;gap:15px;margin-top:25px;min-height:55px}button{border:0;padding:13px 25px;border-radius:30px;font-size:16px;font-weight:bold;cursor:pointer}#yesBtn,#nextBtn{background:#ff4d79;color:white}#yesBtn:hover,#nextBtn:hover{background:#e52f62}#noBtn{background:#eee;color:#555}#noBtn.running{position:fixed;z-index:10}#page2{display:none}.date-box{margin:18px 0;text-align:left;color:#b52f5c;font-weight:bold}.date-box label{display:block;margin:12px 0 7px}.date-box input,.date-box select{width:100%;padding:12px;border:2px solid #ffc2d1;border-radius:12px;font-size:15px;color:#693448;background:#fff8fa}.date-box .hint{font-size:12px;color:#888;font-weight:normal;margin-top:5px}.confirm-btn{background:#ff4d79;color:#fff;margin-top:12px}.confirmation{display:none;margin-top:16px;color:#e84375}.confirmation p{font-size:16px}.backBtn{background:#fce7ee;color:#a92d55;margin-right:8px}.floating-heart{position:fixed;bottom:-30px;pointer-events:none;animation:floatUp 5s linear forwards;z-index:0}@keyframes floatUp{to{transform:translateY(-110vh) rotate(30deg);opacity:0}}@media(max-width:360px){h1{font-size:24px}.card{padding:25px 16px}button{padding:12px 20px}}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;font-family:Arial,sans-serif;background:linear-gradient(135deg,#ffe0e9,#ffc2d1)}.card{width:min(92%,440px);padding:30px 22px;text-align:center;background:#fff;border-radius:25px;box-shadow:0 12px 35px #d94f7b30;z-index:1}.heart{font-size:60px;animation:beat 1s infinite}@keyframes beat{50%{transform:scale(1.15)}}h1{color:#e84375;font-size:28px}p{color:#777;line-height:1.6}.buttons{display:flex;justify-content:center;align-items:center;gap:15px;margin-top:25px;min-height:55px}button{border:0;padding:13px 25px;border-radius:30px;font-size:16px;font-weight:bold;cursor:pointer}#yesBtn,#nextBtn{background:#ff4d79;color:white}#yesBtn:hover,#nextBtn:hover{background:#e52f62}#noBtn{background:#eee;color:#555}#noBtn.running{position:fixed;z-index:10}#page2,#page3{display:none}.date-box{margin:18px 0;text-align:left;color:#b52f5c;font-weight:bold}.date-box label{display:block;margin:12px 0 7px}.date-box input,.date-box select{width:100%;padding:12px;border:2px solid #ffc2d1;border-radius:12px;font-size:15px;color:#693448;background:#fff8fa}.date-box .hint{font-size:12px;color:#888;font-weight:normal;margin-top:5px}.confirm-btn{background:#ff4d79;color:#fff;margin-top:12px}.confirmation{display:none;margin-top:16px;color:#e84375}.confirmation p{font-size:16px}.backBtn{background:#fce7ee;color:#a92d55;margin-right:8px}.floating-heart{position:fixed;bottom:-30px;pointer-events:none;animation:floatUp 5s linear forwards;z-index:0}@keyframes floatUp{to{transform:translateY(-110vh) rotate(30deg);opacity:0}}@media(max-width:360px){h1{font-size:24px}.card{padding:25px 16px}button{padding:12px 20px}}
 </style>
 </head>
 <body>
@@ -26,11 +26,12 @@
 <div class="hint">Choose what you like, date girlie 💐</div>
 <button id="confirmDateBtn" class="confirm-btn" type="button">Confirm our date 💕</button>
 </div>
-<div id="confirmation" class="confirmation">
+</section>
+<section id="page3">
+<div class="heart">💖</div>
 <h1>It’s a date! 💐</h1>
 <p id="chosenDetails"></p>
 <p>I can’t wait to see you, Clarissa! 💖</p>
-</div>
 </section>
 </main>
 <script>
@@ -42,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const datePicker = document.getElementById('datePicker');
   const confirmDateBtn = document.getElementById('confirmDateBtn');
   const dateForm = document.getElementById('dateForm');
-  const confirmation = document.getElementById('confirmation');
+  const page3 = document.getElementById('page3');
   const chosenDetails = document.getElementById('chosenDetails');
 
   const now = new Date();
@@ -80,8 +81,8 @@ document.addEventListener('DOMContentLoaded', function () {
       weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     });
     chosenDetails.textContent = '📅 ' + niceDate;
-    dateForm.style.display = 'none';
-    confirmation.style.display = 'block';
+    page2.style.display = 'none';
+    page3.style.display = 'block';
     for (let i = 0; i < 18; i++) {
       setTimeout(function () {
         const heart = document.createElement('div');
